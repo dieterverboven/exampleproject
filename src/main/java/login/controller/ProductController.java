@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import login.model.Product;
 import login.repository.ProductRepository;
 
 @Controller
@@ -24,6 +25,18 @@ public class ProductController {
 	public String deleteProduct(@RequestParam(name="id", required=true) Long id, Model model) {
 		
 		repository.deleteById(id);
+		
+		model.addAttribute("list", repository.findAll());
+        
+        return "manageProducts";
+	}
+	
+	@RequestMapping(value = "/addProduct", method = RequestMethod.POST)
+	public String addProduct(@RequestParam(name="name", required=false) String name, @RequestParam(name="price", required=false) double price, Model model) {
+		
+		Product product = new Product(name, price);
+		
+		repository.save(product);
 		
 		model.addAttribute("list", repository.findAll());
         

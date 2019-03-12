@@ -87,14 +87,14 @@
 	
 		<h2 id="test">Add product</h2>
 
-		<form action="/manageproducts" method="get">
+		<form action="/addProduct" method="post">
 		<div class="form-group">
-			<label> Name of Product: <input type="text" name="username"/> </label>
+			<label> Name of Product: <input type="text" name="name"/> </label>
 		</div>
-            <div class="form-group"><label> Price: <input type="number" name="password"/> </label></div>
+            <div class="form-group"><label> Price: <input type="number" step="0.01" name="price"/> </label></div>
         <button type="submit" class="btn btn-primary">Submit</button>
         
-        <button id="btnCancel" onclick="return cancelForm()" type="submit" class="btn">Cancel</button>
+        <button id="btnCancel" onclick="return cancelForm()" class="btn">Cancel</button>
         </form>
 	</div>
 	

@@ -1,0 +1,4 @@
+Today I made:
+- a page where an admin can manage the products
+- on this page he can delete and add products
+- addes some javascript to the page (showing and hiding the add form)
