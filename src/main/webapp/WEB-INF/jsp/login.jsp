@@ -26,9 +26,27 @@
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
-					<li ><a href="/">Home</a></li>
-					<li><a href="#about">Products</a></li>
+					<li><a href="/">Home</a></li>
+					<li><a href="/products">Products</a></li>
+					<c:if test="${loggedInUser.getRole() == '1'}">
+						<li class="active"><a href="/manageproducts">Manage Products</a></li>
+						<li><a href="/manageusers">Manage Users</a></li>
+					</c:if>
+					
 				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<c:choose>
+					    <c:when test="${loggedInUser == null}">
+					         <li><a href="/register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+			      			<li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+					    </c:when>    
+					    <c:otherwise>
+					        	<li><span class="glyphicon glyphicon-user"></span>${loggedInUser.getUsername()}</li>
+			      				<li><a href="/logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+					    </c:otherwise>
+					</c:choose>
+			     
+			    </ul>
 			</div>
 		</div>
 	</nav>

@@ -16,7 +16,7 @@
 	 -->
 	<c:url value="/css/main.css" var="jstlCss" />
 	<link href="${jstlCss}" rel="stylesheet" />
-	<title>Manage Products</title>
+	<title>Manage Users</title>
 	
 	
 	
@@ -33,11 +33,12 @@
 					<li><a href="/">Home</a></li>
 					<li><a href="/products">Products</a></li>
 					<c:if test="${loggedInUser.getRole() == '1'}">
-						<li class="active"><a href="/manageproducts">Manage Products</a></li>
-						<li><a href="/manageusers">Manage Users</a></li>
+						<li><a href="/manageproducts">Manage Products</a></li>
+						<li class="active"><a href="/manageusers">Manage Users</a></li>
 					</c:if>
 					
 				</ul>
+				
 				<ul class="nav navbar-nav navbar-right">
 					<c:choose>
 					    <c:when test="${loggedInUser == null}">
@@ -58,15 +59,15 @@
 
 	<div class="container table-responsive">
 
-	<h1>Manage Products</h1>
+	<h1>Manage Users</h1>
 
 		<table class="table">
 			<tr>
 				<th>
-					Name
+					Username
 				</th>
 				<th>
-					Price
+					Role
 				</th>
 				<th>
 					Actions
@@ -76,13 +77,20 @@
 			<c:forEach items="${list}" var="item">
 			<tr>
 				<td>
-				${item.getName()}
+				${item.getUsername()}
 				</td>
 				<td>
-				${item.getPrice()} leva
+				<c:choose>
+			    <c:when test="${item.getRole() == 1}">
+			        <p>Admin</p>
+			    </c:when>    
+			    <c:otherwise>
+			        <p>User</p>
+			    </c:otherwise>
+			</c:choose>
 				</td>
 				<td>
-					<form action="deleteproduct" method="post">
+					<form action="deleteuser" method="post">
 						<input type="hidden" name="id" value="${item.getId()}"/>
 						<button type="submit" class="btn btn-danger">Delete</button>
 					</form>
@@ -93,18 +101,18 @@
 			</tr>
 		</table>
 	
-	<button id="addButton" type="button" class="btn btn-success" onclick="return addProduct()">Add product</button>
+	<button id="addButton" type="button" class="btn btn-success" onclick="return addUser()">Add user</button>
 	</div>
 	
 	<div class="container" id="addForm">
 	
-		<h2 id="test">Add product</h2>
+		<h2 id="test">Add user</h2>
 
 		<form action="/addProduct" method="post">
 		<div class="form-group">
-			<label> Name of Product: <input type="text" name="name"/> </label>
+			<label> Username: <input type="text" name="Username"/> </label>
 		</div>
-            <div class="form-group"><label> Price: <input type="number" step="0.01" name="price"/> </label></div>
+            <div class="form-group"><label> Password: <input type="number" step="0.01" name="Username"/> </label></div>
         <button type="submit" class="btn btn-primary">Submit</button>
         
         <button id="btnCancel" onclick="return cancelForm()" class="btn">Cancel</button>
@@ -123,7 +131,7 @@
 		};    
 		
 		
-		function addProduct() {
+		function addUser() {
 			document.getElementById("addForm").style.display = "block";
 			document.getElementById("addButton").style.display = "none";
 		}

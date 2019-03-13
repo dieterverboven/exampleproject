@@ -16,8 +16,10 @@
 	 -->
 	<c:url value="/css/main.css" var="jstlCss" />
 	<link href="${jstlCss}" rel="stylesheet" />
-	<title>Welcome</title>
-
+	<title>Manage products</title>
+	
+	
+	
 </head>
 <body>
 
@@ -28,10 +30,10 @@
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="/">Home</a></li>
+					<li><a href="/">Home</a></li>
 					<li><a href="/products">Products</a></li>
 					<c:if test="${loggedInUser.getRole() == '1'}">
-						<li><a href="/manageproducts">Manage Products</a></li>
+						<li class="active"><a href="/manageproducts">Manage Products</a></li>
 						<li><a href="/manageusers">Manage Users</a></li>
 					</c:if>
 					
@@ -52,24 +54,39 @@
 			</div>
 		</div>
 	</nav>
+	
 
-	<div class="container">
+	<div class="container table-responsive">
 
-		<div class="starter-template">
-			<h1>Hello ${loggedInUser.getUsername()}</h1>
-			<c:choose>
-			    <c:when test="${loggedInUser == null}">
-			        <h2><a href="/login">Login</a></h2>
-			    </c:when>    
-			    <c:otherwise>
-			        <h2><a href="/logout">Logout</a></h2>
-			    </c:otherwise>
-			</c:choose>
-		</div>
+	<h1>All products</h1>
 
+		<table class="table">
+			<tr>
+				<th>
+					Name
+				</th>
+				<th>
+					Price
+				</th>
+			</tr>
+			
+			<c:forEach items="${list}" var="item">
+			<tr>
+				<td>
+				${item.getName()}
+				</td>
+				<td>
+				${item.getPrice()} leva
+				</td>
+				</tr>
+			</c:forEach>
+			</tr>
+		</table>
+	
 	</div>
 	
-	<script type="text/javascript" src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	
+	<!-- <script type="text/javascript" src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
 
 </body>
 

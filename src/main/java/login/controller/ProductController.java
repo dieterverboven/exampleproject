@@ -21,6 +21,12 @@ public class ProductController {
         return "redirect:/manageProducts";
     }
 	
+	@GetMapping("/products")
+    public String products(Model model) {
+		model.addAttribute("list", repository.findAll());
+        return "products";
+    }
+	
 	@RequestMapping(value = "/deleteproduct", method = RequestMethod.POST)
 	public String deleteProduct(@RequestParam(name="id", required=true) Long id, Model model) {
 		

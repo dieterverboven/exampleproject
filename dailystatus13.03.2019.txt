@@ -1,0 +1,6 @@
+Today I made:
+
+- a page where an admin can add/delete users
+- a page where a user can see all products and their price
+- an option to sign out on the navigation bar.
+

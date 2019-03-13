@@ -42,7 +42,7 @@ public class LoginController {
 	@GetMapping("/login")
     public String login(@RequestParam(name="msg", required=false) String msg, @RequestParam(name="password", required=false) String password, Model model) {
         model.addAttribute("msg", msg);
-        
+        model.addAttribute("loggedInUser", loggedInUser);
         return "login";
     }
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -64,7 +64,7 @@ public class LoginController {
 	
 	@GetMapping("/register")
     public String register(@RequestParam(name="username", required=false) String name, @RequestParam(name="password", required=false) String password, Model model) {
-        
+		model.addAttribute("loggedInUser", loggedInUser);
         return "register";
     }
 	
@@ -86,7 +86,7 @@ public class LoginController {
 	@GetMapping("/confirm-registration")
     public String makeUser(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
         model.addAttribute("name", name);
-        
+        model.addAttribute("loggedInUser", loggedInUser);
         return "register";
     }
 	
@@ -112,6 +112,21 @@ public class LoginController {
 			model.addAttribute("loggedInUser", loggedInUser);
 			model.addAttribute("list", productRes.findAll());
 			return "manageProducts";
+		}
+    }
+	
+	@GetMapping("/manageUsers")
+    public String manageUsers(Model model) {
+        
+		if(loggedInUser == null || loggedInUser.getRole() != 1)
+		{
+			return "redirect:/unauthorized";
+		}
+		else
+		{
+			model.addAttribute("loggedInUser", loggedInUser);
+			model.addAttribute("list", repository.findAll());
+			return "manageUsers";
 		}
     }
 	
