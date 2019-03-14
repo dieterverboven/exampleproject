@@ -35,6 +35,7 @@ public class LoginController {
 	public String welcome(Model model) {
 		model.addAttribute("message", message);
 		model.addAttribute("msg", msg);
+		
 		model.addAttribute("loggedInUser", loggedInUser);
 		return "welcome";
 	}

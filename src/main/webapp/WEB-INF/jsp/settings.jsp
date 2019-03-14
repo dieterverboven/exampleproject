@@ -55,18 +55,17 @@
 
 	<div class="container">
 
-		<div class="starter-template">
-			<h1>Hello ${loggedInUser.getUsername()}</h1>
-			<c:choose>
-			    <c:when test="${loggedInUser == null}">
-			        <h2><a href="/login">Login</a></h2>
-			    </c:when>    
-			    <c:otherwise>
-			        <h2><a href="/logout">Logout</a></h2>
-			    </c:otherwise>
-			</c:choose>
-		</div>
-
+		<h1>Hello ${loggedInUser.getUsername()}</h1>
+		<h2>Change your setting here:</h2>
+		<form action="updateUser" method="post">
+		
+			<input type="hidden" name="id" value="${loggedInUser.getId()}"/>
+			<div class="form-group">
+				<label> Username : <input type="text" name="username" value="${loggedInUser.getUsername() }"/> </label>
+			</div>
+            <div class="form-group"><label> Password: <input type="password" name="password" value="${loggedInUser.getPassword() }"/> </label></div>
+        	<button type="submit" class="btn btn-primary">Submit</button>
+		</form>
 	</div>
 	
 	<script type="text/javascript" src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>

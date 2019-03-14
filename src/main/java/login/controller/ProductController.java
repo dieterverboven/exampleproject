@@ -16,6 +16,8 @@ public class ProductController {
 	@Autowired
 	ProductRepository repository;
 	
+	Product product;
+	
 	@GetMapping("/manageproducts")
     public String manage(Model model) {
         return "redirect:/manageProducts";
@@ -34,7 +36,28 @@ public class ProductController {
 		
 		model.addAttribute("list", repository.findAll());
         
-        return "manageProducts";
+		return "manageProducts";
+	}
+	
+	@GetMapping("/editProduct")
+    public String product(@RequestParam(name="id", required=true) Long id, Model model) {
+		model.addAttribute("product", repository.findByProductId(id));
+        return "editProduct";
+    }
+	
+	@RequestMapping(value = "/editProduct", method = RequestMethod.POST)
+	public String editProduct(@RequestParam(name="id", required=true) Long id, @RequestParam(name="name", required=true) String name, @RequestParam(name="price", required=true) double price, Model model) {
+		
+		product = new Product();
+		
+		repository.findById(id).ifPresent(foundProduct -> {
+			product = foundProduct;
+			product.setName(name);
+			product.setPrice(price);
+		});
+		
+		repository.save(product);
+        return "redirect:/manageProducts";
 	}
 	
 	@RequestMapping(value = "/addProduct", method = RequestMethod.POST)

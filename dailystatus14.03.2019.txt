@@ -1,0 +1,5 @@
+Today I made:
+
+- a page where the logged in user can change his settings
+- an option to edit products
+

@@ -16,7 +16,7 @@
 	 -->
 	<c:url value="/css/main.css" var="jstlCss" />
 	<link href="${jstlCss}" rel="stylesheet" />
-	<title>Welcome</title>
+	<title>Edit products</title>
 
 </head>
 <body>
@@ -52,25 +52,21 @@
 			</div>
 		</div>
 	</nav>
-
-	<div class="container">
-
-		<div class="starter-template">
-			<h1>Hello ${loggedInUser.getUsername()}</h1>
-			<c:choose>
-			    <c:when test="${loggedInUser == null}">
-			        <h2><a href="/login">Login</a></h2>
-			    </c:when>    
-			    <c:otherwise>
-			        <h2><a href="/logout">Logout</a></h2>
-			    </c:otherwise>
-			</c:choose>
-		</div>
-
-	</div>
 	
-	<script type="text/javascript" src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<div class="container" id="addForm">
+	
+		<h2 id="test">Edit product - ${product.getName()}</h2>
+
+		<form action="/editProduct" method="post">
+		<input type="hidden" name="id" value="${product.getId()}"/>
+		<div class="form-group">
+			<label> Name of Product: <input type="text" name="name" value="${product.getName()}"/> </label>
+		</div>
+            <div class="form-group"><label> Price: <input type="number" step="0.01" name="price" value="${product.getPrice()}"/> </label></div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        
+        </form>
+	</div>
 
 </body>
-
 </html>

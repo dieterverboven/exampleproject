@@ -82,6 +82,10 @@
 				${item.getPrice()} leva
 				</td>
 				<td>
+				<form action="editProduct" method="get">
+						<input type="hidden" name="id" value="${item.getId()}"/>
+						<button type="submit" class="btn btn-danger">Edit</button>
+					</form>
 					<form action="deleteproduct" method="post">
 						<input type="hidden" name="id" value="${item.getId()}"/>
 						<button type="submit" class="btn btn-danger">Delete</button>

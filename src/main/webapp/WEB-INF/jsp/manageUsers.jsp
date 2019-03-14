@@ -50,7 +50,6 @@
 			      				<li><a href="/logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
 					    </c:otherwise>
 					</c:choose>
-			     
 			    </ul>
 			</div>
 		</div>
@@ -90,10 +89,20 @@
 			</c:choose>
 				</td>
 				<td>
-					<form action="deleteuser" method="post">
-						<input type="hidden" name="id" value="${item.getId()}"/>
-						<button type="submit" class="btn btn-danger">Delete</button>
-					</form>
+				
+				<c:choose>
+					    <c:when test="${loggedInUser.getId() == item.getId()}">
+					        <button type="submit" class="btn btn-danger" disabled title="You cannot delete your own account">Delete</button>
+					    </c:when>    
+					    <c:otherwise>
+					        	<form action="deleteuser" method="post">
+						
+									<input type="hidden" name="id" value="${item.getId()}"/>
+									<button type="submit" class="btn btn-danger">Delete</button>
+								</form>	
+					    </c:otherwise>
+				</c:choose>
+					
 					
 				</td>
 				</tr>

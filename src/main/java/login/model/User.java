@@ -10,12 +10,12 @@ public class User {
 
 	@Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private Long id;
+    private Long userId;
     private String username;
     private String password;
     private int role;
 
-    protected User() {}
+    public User() {}
 
     public User(String username, String password, int role) {
         this.username = username;
@@ -27,15 +27,15 @@ public class User {
     public String toString() {
         return String.format(
                 "User[id=%d, username='%s', password='%s']",
-                id, username, password);
+                userId, username, password);
     }
 
 	public Long getId() {
-		return id;
+		return userId;
 	}
 
 	public void setId(Long id) {
-		this.id = id;
+		this.userId = id;
 	}
 
 	public String getUsername() {
