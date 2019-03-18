@@ -1,0 +1,4 @@
+Today I:
+- made an option to add an admin
+- made an option to order a certain product
+- made a page to view your orders

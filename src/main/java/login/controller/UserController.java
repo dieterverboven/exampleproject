@@ -16,7 +16,7 @@ public class UserController {
 	@Autowired
 	UserRepository repository;
 	
-	User user;
+	
 	
 	@GetMapping("/manageusers")
     public String manage(Model model) {
@@ -30,27 +30,17 @@ public class UserController {
 		
 		model.addAttribute("list", repository.findAll());
         
-        return "manageUsers";
+        return "redirect:/manageUsers";
 	}
 	
-	@RequestMapping(value = "/updateUser", method = RequestMethod.POST)
-	public String updateUser(@RequestParam(name="id", required=true) Long id ,@RequestParam(name="username", required=true) String username, 
-							@RequestParam(name="password", required=true) String password, Model model) {
+	@RequestMapping(value = "/addAdmin", method = RequestMethod.POST)
+	public String addProduct(@RequestParam(name="username", required=false) String username, @RequestParam(name="password", required=false) String password, Model model) {
 		
-		user = new User();
-		
-		repository.findById(id).ifPresent(foundUser -> {
-			user = foundUser;
-			user.setUsername(username);
-			user.setPassword(password);
-		});
+		User user = new User(username, password, 1);
 		
 		repository.save(user);
 		
-		
-		model.addAttribute("loggedInUser", user);
-        
-        return "welcome";
+        return "redirect:/manageUsers";
 	}
 	
 	@GetMapping(value = "/settings")

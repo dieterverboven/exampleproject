@@ -23,11 +23,7 @@ public class ProductController {
         return "redirect:/manageProducts";
     }
 	
-	@GetMapping("/products")
-    public String products(Model model) {
-		model.addAttribute("list", repository.findAll());
-        return "products";
-    }
+	
 	
 	@RequestMapping(value = "/deleteproduct", method = RequestMethod.POST)
 	public String deleteProduct(@RequestParam(name="id", required=true) Long id, Model model) {
@@ -39,11 +35,7 @@ public class ProductController {
 		return "manageProducts";
 	}
 	
-	@GetMapping("/editProduct")
-    public String product(@RequestParam(name="id", required=true) Long id, Model model) {
-		model.addAttribute("product", repository.findByProductId(id));
-        return "editProduct";
-    }
+	
 	
 	@RequestMapping(value = "/editProduct", method = RequestMethod.POST)
 	public String editProduct(@RequestParam(name="id", required=true) Long id, @RequestParam(name="name", required=true) String name, @RequestParam(name="price", required=true) double price, Model model) {

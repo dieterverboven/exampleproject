@@ -23,6 +23,8 @@ public class LoginController {
 	ProductRepository productRes;
 	User loggedInUser = null;
 	String msg = "user";
+	User user;
+	
 	// inject via application.properties
 		@Value("${welcome.message:test}")
 		private String message = "Hello World";
@@ -45,6 +47,13 @@ public class LoginController {
         model.addAttribute("msg", msg);
         model.addAttribute("loggedInUser", loggedInUser);
         return "login";
+    }
+	
+	@GetMapping("/products")
+    public String products(Model model) {
+		model.addAttribute("list", productRes.findAll());
+		model.addAttribute("loggedInUser", loggedInUser);
+        return "products";
     }
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String signin(@RequestParam(name="username", required=false) String username, @RequestParam(name="password", required=false) String password, Model model) {
@@ -131,8 +140,45 @@ public class LoginController {
 		}
     }
 	
+	@GetMapping("/editProduct")
+    public String product(@RequestParam(name="id", required=true) Long id, Model model) {
+		
+		if(loggedInUser == null || loggedInUser.getRole() != 1)
+		{
+			return "redirect:/unauthorized";
+		}
+		else
+		{
+			model.addAttribute("product", productRes.findByProductId(id));
+	        return "editProduct";
+		}
+				
+    }
+	
+	@RequestMapping(value = "/updateUser", method = RequestMethod.POST)
+	public String updateUser(@RequestParam(name="id", required=true) Long id ,@RequestParam(name="username", required=true) String username, 
+							@RequestParam(name="password", required=true) String password, Model model) {
+		
+		user = new User();
+		
+		repository.findById(id).ifPresent(foundUser -> {
+			user = foundUser;
+			user.setUsername(username);
+			user.setPassword(password);
+			loggedInUser = user;
+		});
+		
+		repository.save(user);
+		
+		
+		model.addAttribute("loggedInUser", user);
+        
+        return "welcome";
+	}
+	
 	@GetMapping("/unauthorized")
     public String unautherized(Model model) {
+		model.addAttribute("loggedInUser", loggedInUser);
         
 		return "unauthorized";
     }

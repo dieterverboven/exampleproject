@@ -30,6 +30,9 @@
 				<ul class="nav navbar-nav">
 					<li class="active"><a href="/">Home</a></li>
 					<li><a href="/products">Products</a></li>
+					<c:if test="${loggedInUser != null}">
+						<li><a href="/orders?userId=${loggedInUser.getId()}">Your orders</a></li>
+					</c:if>
 					<c:if test="${loggedInUser.getRole() == '1'}">
 						<li><a href="/manageproducts">Manage Products</a></li>
 						<li><a href="/manageusers">Manage Users</a></li>

@@ -63,6 +63,9 @@
 		<table class="table">
 			<tr>
 				<th>
+					Id
+				</th>
+				<th>
 					Username
 				</th>
 				<th>
@@ -75,6 +78,9 @@
 			
 			<c:forEach items="${list}" var="item">
 			<tr>
+				<td>
+					${item.getId() }
+				</td>
 				<td>
 				${item.getUsername()}
 				</td>
@@ -110,18 +116,18 @@
 			</tr>
 		</table>
 	
-	<button id="addButton" type="button" class="btn btn-success" onclick="return addUser()">Add user</button>
+	<button id="addButton" type="button" class="btn btn-success" onclick="return addUser()">Add admin</button>
 	</div>
 	
 	<div class="container" id="addForm">
 	
-		<h2 id="test">Add user</h2>
+		<h2 id="test">Add admin</h2>
 
-		<form action="/addProduct" method="post">
+		<form action="/addAdmin" method="post">
 		<div class="form-group">
-			<label> Username: <input type="text" name="Username"/> </label>
+			<label> Username: <input type="text" name="username"/> </label>
 		</div>
-            <div class="form-group"><label> Password: <input type="number" step="0.01" name="Username"/> </label></div>
+            <div class="form-group"><label> Password: <input type="text" step="0.01" name="password"/> </label></div>
         <button type="submit" class="btn btn-primary">Submit</button>
         
         <button id="btnCancel" onclick="return cancelForm()" class="btn">Cancel</button>

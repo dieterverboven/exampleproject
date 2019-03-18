@@ -10,7 +10,9 @@ import org.springframework.context.annotation.Bean;
 
 import login.model.Product;
 import login.model.User;
+import login.model.UserOrder;
 import login.repository.ProductRepository;
+import login.repository.UserOrderRepository;
 import login.repository.UserRepository;
 
 @SpringBootApplication
@@ -27,7 +29,7 @@ public class Application extends SpringBootServletInitializer {
 	
     
     @Bean
-	public CommandLineRunner demo(UserRepository userRepository, ProductRepository productRepository) {
+	public CommandLineRunner demo(UserRepository userRepository, ProductRepository productRepository, UserOrderRepository orderRepository) {
 		return (args) -> {
 			// save a couple of users
 			userRepository.save(new User("Jack", "Bauer", 1));
@@ -40,6 +42,9 @@ public class Application extends SpringBootServletInitializer {
 			productRepository.save(new Product("Jupiler", 1.99));
 			productRepository.save(new Product("Duvel", 2.99));
 			productRepository.save(new Product("Leffe", 2.99));
+			// save a couple of orders
+			orderRepository.save(new UserOrder(userRepository.findByUserId(1L), productRepository.findByProductId(7L), 5));
+			orderRepository.save(new UserOrder(userRepository.findByUserId(1L), productRepository.findByProductId(6L), 7));
 		};
 	}
 
