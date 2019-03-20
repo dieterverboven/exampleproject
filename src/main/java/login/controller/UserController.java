@@ -9,15 +9,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import login.model.User;
+import login.repository.RoleRepository;
 import login.repository.UserRepository;
 
 @Controller
 public class UserController {
 	@Autowired
 	UserRepository repository;
-	
-	
-	
+	@Autowired
+	RoleRepository roleRepository;
+		
 	@GetMapping("/manageusers")
     public String manage(Model model) {
         return "redirect:/manageUsers";
@@ -36,7 +37,7 @@ public class UserController {
 	@RequestMapping(value = "/addAdmin", method = RequestMethod.POST)
 	public String addProduct(@RequestParam(name="username", required=false) String username, @RequestParam(name="password", required=false) String password, Model model) {
 		
-		User user = new User(username, password, 1);
+		User user = new User(username, password, roleRepository.findByRole("ADMIN"));
 		
 		repository.save(user);
 		

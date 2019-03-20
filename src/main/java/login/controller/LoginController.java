@@ -4,6 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import login.model.User;
 import login.repository.ProductRepository;
+import login.repository.RoleRepository;
 import login.repository.UserRepository;
 
 @Controller
@@ -21,7 +24,10 @@ public class LoginController {
 	UserRepository repository;
 	@Autowired
 	ProductRepository productRes;
-	User loggedInUser = null;
+	@Autowired
+	RoleRepository roleRepository;
+	
+	User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication();
 	String msg = "user";
 	User user;
 	
@@ -35,6 +41,10 @@ public class LoginController {
 	
 	@GetMapping("/")
 	public String welcome(Model model) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		
+	      model.addAttribute("username", auth.getName());
+		
 		model.addAttribute("message", message);
 		model.addAttribute("msg", msg);
 		
@@ -48,17 +58,16 @@ public class LoginController {
         model.addAttribute("loggedInUser", loggedInUser);
         return "login";
     }
-	
 	@GetMapping("/products")
     public String products(Model model) {
 		model.addAttribute("list", productRes.findAll());
 		model.addAttribute("loggedInUser", loggedInUser);
         return "products";
     }
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	/*@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String signin(@RequestParam(name="username", required=false) String username, @RequestParam(name="password", required=false) String password, Model model) {
 		
-		User user = repository.findByUsername(username);
+		Optional<User> user = repository.findByUsername(username);
         
         if(user != null && user.getPassword().equals(password))
         {
@@ -70,7 +79,7 @@ public class LoginController {
         	
         }
         return "login";
-	}
+	}*/
 	
 	@GetMapping("/register")
     public String register(@RequestParam(name="username", required=false) String name, @RequestParam(name="password", required=false) String password, Model model) {
@@ -83,7 +92,7 @@ public class LoginController {
 	public String signup(@RequestParam(name="username", required=false) String username, @RequestParam(name="password", required=false) String password, Model model) {
 		model.addAttribute("username", username);
         model.addAttribute("password", password);
-        User user = new User(username, password, 0);
+        User user = new User(username, password, roleRepository.findByRole("USER"));
         
         log.info(user.toString());		
         repository.save(user);
@@ -109,11 +118,11 @@ public class LoginController {
 		model.addAttribute("msg", msg);
         return "welcome";
     }
-	
+	/*
 	@GetMapping("/manageProducts")
     public String manageProducts(Model model) {
         
-		if(loggedInUser == null || loggedInUser.getRole() != 1)
+		if(loggedInUser == null || loggedInUser.getRoles() != 1)
 		{
 			return "redirect:/unauthorized";
 		}
@@ -153,7 +162,7 @@ public class LoginController {
 	        return "editProduct";
 		}
 				
-    }
+    }*/
 	
 	@RequestMapping(value = "/updateUser", method = RequestMethod.POST)
 	public String updateUser(@RequestParam(name="id", required=true) Long id ,@RequestParam(name="username", required=true) String username, 

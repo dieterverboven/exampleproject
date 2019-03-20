@@ -15,6 +15,8 @@
 	<c:url value="/css/main.css" var="jstlCss" />
 	<link href="${jstlCss}" rel="stylesheet" />
 	<title>Login</title>
+	
+	<c:url value="/login" var="loginUrl"/>
 
 </head>
 <body>
@@ -53,7 +55,21 @@
 
 	<div class="container">
 
-		<form action="/login" method="post">
+		<form action="${loginUrl}" method="post">
+		<c:if test="${param.error != null}">
+        <div class="alert alert-error">
+            Failed to login.
+            <c:if test="${SPRING_SECURITY_LAST_EXCEPTION != null}">
+                Reason: <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.
+                                        message}" />
+            </c:if>
+        </div>
+    </c:if>
+    <c:if test="${param.logout != null}">
+        <div class="alert alert-success">
+            You have been logged out.
+        </div>
+    </c:if>
 		<div class="form-group">
 			<label> Username : <input type="text" name="username"/> </label>
 		</div>
@@ -63,7 +79,6 @@
 		<p>No account yet? Register <a href="/register">here</a></p>
 	</div>
 	
-	<script type="text/javascript" src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 </body>
 

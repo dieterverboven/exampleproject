@@ -1,12 +1,14 @@
 package login.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.repository.CrudRepository;
 
 import login.model.User;
 
 public interface UserRepository extends CrudRepository<User, Long> {
 	
-	User findByUsername(String username);
+	Optional<User> findByUsername(String username);
 	User findByUserId(Long id);
 
 }

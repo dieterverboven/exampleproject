@@ -59,9 +59,13 @@
 	<div class="container">
 
 		<div class="starter-template">
-			<h1>Hello ${loggedInUser.getUsername()}</h1>
+			<h1>Hello 
+				<c:if test="${username != 'anonymousUser'}">
+						${username}
+				</c:if>
+			</h1>
 			<c:choose>
-			    <c:when test="${loggedInUser == null}">
+			    <c:when test="${username == 'anonymousUser'}">
 			        <h2><a href="/login">Login</a></h2>
 			    </c:when>    
 			    <c:otherwise>

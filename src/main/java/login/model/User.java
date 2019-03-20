@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class User {
@@ -13,21 +14,29 @@ public class User {
     private Long userId;
     private String username;
     private String password;
-    private int role;
+
+    @ManyToOne
+    private Role role;
 
     public User() {}
 
-    public User(String username, String password, int role) {
+    public User(String username, String password, Role role) {
         this.username = username;
         this.password = password;
         this.role = role;
     }
 
-    @Override
+    public User(User user) {
+    	this.username = user.getUsername();
+        this.password = user.getPassword();
+        this.userId = user.getId();
+	}
+
+	@Override
     public String toString() {
         return String.format(
-                "User[id=%d, username='%s', password='%s']",
-                userId, username, password);
+                "User[id=%d, username='%s', password='%s', role='%s']",
+                userId, username, password, role.getRole());
     }
 
 	public Long getId() {
@@ -54,13 +63,19 @@ public class User {
 		this.password = password;
 	}
 
-	public int getRole() {
+	public Role getRole() {
 		return role;
 	}
 
-	public void setRole(int role) {
+	public void setRole(Role role) {
 		this.role = role;
 	}
+
+	
+
+	
+
+	
 	
     
     
