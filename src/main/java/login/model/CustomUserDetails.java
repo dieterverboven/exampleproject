@@ -17,11 +17,10 @@ public class CustomUserDetails extends User implements UserDetails {
 	@Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
-		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-		
-		authorities.add(new SimpleGrantedAuthority("ROLE_"+ getRole()));
-		System.out.print("authorities :" + authorities);
-		return authorities;
+		List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
+				
+		list.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+		return list;
     }
 
 	@Override
@@ -35,8 +34,8 @@ public class CustomUserDetails extends User implements UserDetails {
 	}
 	
 	@Override
-	public String getRole() {
-		return super.getRole().getRole();
+	public Role getRole() {
+		return super.getRole();
 	}
 
 	@Override
